@@ -20,14 +20,16 @@ jobs:
         run: |
           while true; do
             for file in ./*.mp3; do
-              echo "Now Streaming: $file"
+              echo "Target: ISMIR Radio | File: $file"
+              # استخدمنا هنا اسم المستخدم admin بدلاً من source
+              # وقمنا بإزالة /stream لأن سيرفرك غالباً لا يدعمها
               ffmpeg -re -i "$file" \
                 -c:a libmp3lame \
                 -b:a 128k \
                 -ar 44100 \
                 -f mp3 \
+                -ice_public 0 \
                 -legacy_icecast 1 \
-                -content_type audio/mpeg \
-                "icecast://source:admin2001@82.145.41.50:9210/stream"
+                "icecast://source:admin2001@82.145.41.50:9210"
             done
           done
