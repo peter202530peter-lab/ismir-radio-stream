@@ -18,7 +18,7 @@ jobs:
           while true; do
             for file in ./*.mp3; do
               echo "Streaming: $file"
-              # التعديل هنا: أضفنا / في نهاية الرابط لتحديد الـ Mountpoint
-              ffmpeg -re -i "$file" -c:a libmp3lame -b:a 128k -ar 44100 -f mp3 icecast://admin:admin2001@82.145.41.50:9210/
+              # التعديل هنا: استخدمنا بروتوكول icy وسرعة بت ثابتة لضمان التوافق
+              ffmpeg -re -i "$file" -c:a libmp3lame -b:a 128k -ar 44100 -f mp3 icy://admin:admin2001@82.145.41.50:9210
             done
           done
