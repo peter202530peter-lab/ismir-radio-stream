@@ -1,5 +1,4 @@
 name: ISMIR 24/7 Stream
-
 on:
   workflow_dispatch:
   push:
@@ -12,24 +11,19 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install FFmpeg
-        run: |
-          sudo apt update
-          sudo apt install -y ffmpeg
+        run: sudo apt update && sudo apt install -y ffmpeg
 
       - name: Start Streaming
         run: |
           while true; do
             for file in ./*.mp3; do
-              echo "Target: ISMIR Radio | File: $file"
-              # استخدمنا هنا اسم المستخدم admin بدلاً من source
-              # وقمنا بإزالة /stream لأن سيرفرك غالباً لا يدعمها
-              ffmpeg -re -i "$file" \
-                -c:a libmp3lame \
-                -b:a 128k \
-                -ar 44100 \
-                -f mp3 \
-                -ice_public 0 \
-                -legacy_icecast 1 \
-                "icecast://source:admin2001@82.145.41.50:9210"
+              echo "Streaming: $file"
+              # الحل هنا: استخدام بروتوكول icecast مع شَرطة مائلة واحدة فقط في النهاية
+              # وإضافة خيار icy_metadata لضمان التوافق مع Shoutcast
+              ffmpeg -re -i "$file" -c:a libmp3lame -b:a 128k -ar 44100 -f mp3 \
+              -ice_public 0 \
+              -metadata title="ISMIR Radio - Live" \
+              -legacy_icecast 1 \
+              "icecast://source:admin2001@82.145.41.50:9210/"
             done
           done
