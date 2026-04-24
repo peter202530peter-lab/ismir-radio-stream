@@ -16,9 +16,9 @@ jobs:
       - name: Start Streaming
         run: |
           while true; do
-            # الكود سيبحث عن كل ملفات mp3 في المستودع ويبثها لسيرفرك
             for file in ./*.mp3; do
               echo "Streaming: $file"
-              ffmpeg -re -i "$file" -c:a libmp3lame -b:a 128k -ar 44100 -f mp3 icecast://admin:admin2001@82.145.41.50:9210
+              # التعديل هنا: أضفنا / في نهاية الرابط لتحديد الـ Mountpoint
+              ffmpeg -re -i "$file" -c:a libmp3lame -b:a 128k -ar 44100 -f mp3 icecast://admin:admin2001@82.145.41.50:9210/
             done
           done
