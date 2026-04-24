@@ -18,9 +18,9 @@ jobs:
           while true; do
             for file in ./*.mp3; do
               echo "Streaming: $file"
-              # استخدام HTTP POST لإرسال البيانات لسيرفر Shoutcast مباشرة
+              # التعديل الجوهري: استخدام بروتوكول icecast مع اسم المستخدم source
+              # هذا هو التنسيق القياسي لسيرفرات Shoutcast
               ffmpeg -re -i "$file" -c:a libmp3lame -b:a 128k -ar 44100 -f mp3 \
-              -content_type audio/mpeg -headers "Authorization: admin2001" \
-              http://82.145.41.50:9210
+              icecast://source:admin2001@82.145.41.50:9210
             done
           done
